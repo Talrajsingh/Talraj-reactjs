@@ -65,7 +65,7 @@ const Testimonials = () => {
                     }
                 `}
             </style>
-            <section className="bg-[#FAFAFA] py-16 px-4  dark:border-white/25 flex items-center gap-2  dark:bg-transparent dark:text-white">
+            <section className="bg-[#FAFAFA] py-16 px-4  dark:border-white/25 flex items-center gap-2  dark:bg-transparent dark:text-white ">
                 <div className="max-w-6xl mx-auto">
 
                     <div className="text-center mb-8">
