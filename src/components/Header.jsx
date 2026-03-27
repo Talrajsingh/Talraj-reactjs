@@ -24,7 +24,14 @@ export default function Header() {
 <img
   src="https://cdn.pixabay.com/photo/2013/07/13/12/12/moon-159383_1280.png"
   alt="moon"
-  className="absolute left-[-420px] top-1/2 -translate-y-1/2 w-[1100px] opacity-70 pointer-events-none"
+  className="
+  absolute 
+  left-[-250px] md:left-[-420px] 
+  top-1/2 -translate-y-1/2 
+  w-[600px] md:w-[1100px] 
+  opacity-70 
+  pointer-events-none
+  "
 />
 
       {/* Header Content */}
