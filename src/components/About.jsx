@@ -2,10 +2,15 @@ import MeteorCrash from "../animations/MeteorCrash.jsx"
 
 export default function About() {
 
-    const tools = [
-        { name: 'vscode', icon: './assets/vscode.png' },
-        { name: 'git', icon: './assets/git.png' },
-    ];
+    
+
+    const skills = [
+  { name: "React", level: 80 },
+  { name: ".NET Web API", level: 75 },
+  { name: "Node.js", level: 65 },
+  { name: "SQL Server", level: 70 },
+  { name: "JavaScript", level: 85 },
+];
 
     const data = [
         {
@@ -108,34 +113,36 @@ export default function About() {
 
                     </ul>
 
-                    <h4 className="my-6 text-gray-700 font-Ovo dark:text-white/80">
-                        Tools i use
-                    </h4>
-
-                    <ul className="flex items-center gap-3 sm:gap-5">
-
-                        {tools.map((tool) => (
-
-                            <li
-                                key={tool.name}
-                                className="flex items-center justify-center w-12 sm:w-14 aspect-square border border-gray-300 dark:border-white/30 rounded-lg cursor-pointer hover:-translate-y-1 duration-500"
-                            >
-
-                                <img
-                                    src={tool.icon}
-                                    alt={tool.name}
-                                    className="w-5 sm:w-7"
-                                />
-
-                            </li>
-
-                        ))}
-
-                    </ul>
+                    
 
                 </div>
 
             </div>
+            <h1 className="my-10 text-center text-gray-700 font-Ovo dark:text-white/80 text-3xl">
+  Technical Skills
+</h1>
+
+<div className="w-full max-w-md mx-auto space-y-4 px-4">
+
+  {skills.map((skill) => (
+    <div key={skill.name}>
+
+      <div className="flex justify-between text-xs sm:text-sm font-medium mb-1">
+        <span>{skill.name}</span>
+        <span>{skill.level}%</span>
+      </div>
+
+      <div className="w-full bg-gray-300 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+
+        <div
+          className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-700"
+          style={{ width: `${skill.level}%` }}
+        ></div>
+      </div>
+
+    </div>
+  ))}
+</div>
 
         </div>
 

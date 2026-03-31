@@ -10,6 +10,7 @@ import Testimonials from './components/Testimonials'
 import Particles from './animations/Particles'
 import Loader from "./components/Loader";
 import { useState } from "react";
+import ClickSpark from './animations/ClickSpark'
 
 export default function App() {
      const [loading, setLoading] = useState(true);
@@ -19,6 +20,14 @@ export default function App() {
   }
     return (
         <div className="relative">
+
+        <ClickSpark
+  sparkColor='#fff'
+  sparkSize={31}
+  sparkRadius={105}
+  sparkCount={20}
+  duration={600}
+>
 
             {/* Global particles background */}
             <div className="fixed inset-0 -z-10">
@@ -44,6 +53,8 @@ export default function App() {
             <Testimonials />
             <Contact />
             <Footer />
+
+            </ClickSpark>
 
         </div>
     )
