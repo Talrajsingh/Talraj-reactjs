@@ -1,3 +1,4 @@
+
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import Work from './components/Work'
@@ -8,54 +9,65 @@ import Navbar from './components/Navbar'
 import LenisScroll from './components/LenisScroll'
 import Testimonials from './components/Testimonials'
 import Particles from './animations/Particles'
-import Loader from "./components/Loader";
-import { useState } from "react";
+import Loader from "./components/Loader"
+import { useState, useEffect } from "react"
 import ClickSpark from './animations/ClickSpark'
 
+import rocketCursor from "../public/assets/rocket-cursor.png"
+
 export default function App() {
-     const [loading, setLoading] = useState(true);
+
+  const [loading, setLoading] = useState(true)
+
+  // 🚀 Rocket Cursor
+  useEffect(() => {
+    document.body.style.cursor = `url(${rocketCursor}) 16 16, auto`
+  }, [])
 
   if (loading) {
-    return <Loader onFinish={() => setLoading(false)} />;
+    return <Loader onFinish={() => setLoading(false)} />
   }
-    return (
-        <div className="relative">
 
-        <ClickSpark
-  sparkColor='#fff'
-  sparkSize={31}
-  sparkRadius={105}
-  sparkCount={20}
-  duration={600}
->
+  return (
+    <div className="relative">
 
-            {/* Global particles background */}
-            <div className="fixed inset-0 -z-10">
-                <Particles
-                    particleColors={["#ffffff"]}
-                    particleCount={250}
-                    particleSpread={15}
-                    speed={0.1}
-                    particleBaseSize={100}
-                    moveParticlesOnHover
-                    alphaParticles={false}
-                    disableRotation={false}
-                    pixelRatio={1}
-                />
-            </div>
+      <ClickSpark
+        sparkColor="#fff"
+        sparkSize={31}
+        sparkRadius={105}
+        sparkCount={20}
+        duration={600}
+      >
 
-            <LenisScroll />
-            <Navbar />
-            <Header />
-            <About />
-            <Services />
-            <Work />
-            <Testimonials />
-            <Contact />
-            <Footer />
-
-            </ClickSpark>
-
+        {/* Global particles background */}
+        <div className="fixed inset-0 -z-10">
+          <Particles
+            particleColors={["#ffffff"]}
+            particleCount={250}
+            particleSpread={15}
+            speed={0.1}
+            particleBaseSize={100}
+            moveParticlesOnHover
+            alphaParticles={false}
+            disableRotation={false}
+            pixelRatio={1}
+          />
         </div>
-    )
+
+        <LenisScroll />
+
+        <Navbar />
+        <Header />
+        <About />
+        <Services />
+        <Work />
+        <Testimonials />
+        <Contact />
+        <Footer />
+
+      </ClickSpark>
+
+    </div>
+  )
 }
+

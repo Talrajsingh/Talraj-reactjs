@@ -42,8 +42,20 @@ export default function About() {
 
             {/* ⭐ Meteor animation background */}
             <div className="absolute right-0 top-0 w-[450px] h-full pointer-events-none">
-        <MeteorCrash />
+        {/* <MeteorCrash /> */}
       </div>
+      <img
+  src="../public/assets/crash-image.png"
+  alt="planet"
+  className="
+  absolute 
+  right-[-250px] md:right-[-420px] 
+  top-1/2 -translate-y-1/2 
+  w-[600px] md:w-[1100px] 
+  opacity-30 
+  pointer-events-none
+  "
+/>
 
             <h4 className="text-center mb-2 text-lg font-Ovo">
                 Introduction

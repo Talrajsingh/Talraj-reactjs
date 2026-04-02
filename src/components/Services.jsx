@@ -6,28 +6,28 @@ export default function Services() {
   const services = [
     {
       name: "Frontend Development",
-      icon: "./assets/frontend-icon.png",
+
       description:
         "Building responsive and modern web interfaces using React.js, Tailwind CSS and JavaScript with focus on performance and user experience.",
       link: "#",
     },
     {
       name: "Backend Development",
-      icon: "./assets/backend-icon.png",
+
       description:
         "Developing scalable backend applications using ASP.NET Core and Node.js with secure authentication and optimized business logic.",
       link: "#",
     },
     {
       name: "REST API Development",
-      icon: "./assets/api-icon.png",
+  
       description:
         "Designing and implementing RESTful APIs using ASP.NET Web API and Express.js to enable smooth communication between frontend and backend.",
       link: "#",
     },
     {
       name: "Database Management",
-      icon: "./assets/database-icon.png",
+
       description:
         "Working with SQL Server and MongoDB to design efficient database structures and optimize queries for scalable applications.",
       link: "#",

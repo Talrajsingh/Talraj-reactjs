@@ -38,14 +38,14 @@ export default function Header() {
       <div className="w-11/12 max-w-3xl text-center mx-auto h-full flex flex-col items-center justify-center gap-4">
 
 
-        <h3 className="flex items-end gap-2 text-5xl md:text-2xl mb-3 font-Ovo">
+        <h1 className="flex items-end gap-2 text-5xl md:text-3xl mb-3 font-Ovo">
           Hi! I&apos;m Talraj Bhatia
           <img src="./assets/hand-icon.png" alt="" className="w-6 mb-1" />
-        </h3>
+        </h1>
 
         <TextType
           text={["Web developer based in Indore."]}
-          className="text-3xl sm:text-6xl lg:text-[66px] font-Ovo"
+          className="text-2xl sm:text-6xl lg:text-[66px] font-Ovo"
           typingSpeed={95}
           pauseDuration={2500}
           showCursor
