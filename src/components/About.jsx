@@ -48,11 +48,11 @@ export default function About() {
   src="../public/assets/crash-image.png"
   alt="planet"
   className="
-  absolute 
-  right-[-250px] md:right-[-420px] 
-  top-1/2 -translate-y-1/2 
-  w-[600px] md:w-[1100px] 
-  opacity-30 
+  absolute
+  right-[-120px] sm:right-[-180px] md:right-[-420px]
+  top-1/2 -translate-y-1/2
+  w-[350px] sm:w-[500px] md:w-[1100px]
+  opacity-30
   pointer-events-none
   "
 />
