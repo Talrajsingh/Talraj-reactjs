@@ -46,12 +46,13 @@ export default function About() {
         alt="planet"
         className="
         absolute
-        right-[-120px] sm:right-[-180px] md:right-[-420px]
-        top-1/2 -translate-y-1/2
-        w-[350px] sm:w-[500px] md:w-[1100px]
-        opacity-30
-        pointer-events-none
-        "
+  right-[-40px] sm:right-[-80px] md:right-[-200px] lg:right-[-300px]
+  bottom-[-50px] sm:bottom-[-100px] md:top-1/2 md:-translate-y-1/2
+  w-[180px] sm:w-[260px] md:w-[600px] lg:w-[900px]
+  opacity-25
+  pointer-events-none
+  z-[-1]
+  "
       />
 
       <h4 className="text-center mb-2 text-lg font-Ovo">
