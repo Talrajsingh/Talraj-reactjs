@@ -164,7 +164,7 @@ export default function Work() {
       </p>
 
       {/* Sticky scroll container */}
-      <div ref={containerRef} style={{ height: `${works.length * 30}vh` }} className="relative">
+      <div ref={containerRef} style={{ height: `${works.length * 40}vh` }} className="relative">
         <div className="flex flex-col gap-5">
           {works.map((work, index) => (
             <ProjectCard
