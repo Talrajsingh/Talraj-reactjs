@@ -1,103 +1,183 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+
+const navLinks = [
+  { label: 'Home',     href: '#top' },
+  { label: 'About',   href: '#about' },
+  { label: 'Services', href: '#services' },
+  { label: 'My Work', href: '#work' },
+  { label: 'Contact', href: '#contact' },
+]
 
 export default function Navbar() {
-    const sideMenuRef = useRef();
-    const navRef = useRef();
-    const navLinkRef = useRef();
+  const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [isDark, setIsDark] = useState(true)
 
-    const openMenu = () => {
-        sideMenuRef.current.style.transform = 'translateX(-16rem)';
+  const toggleTheme = () => {
+    const next = !isDark
+    setIsDark(next)
+    if (next) {
+      document.documentElement.classList.add('dark')
+      localStorage.theme = 'dark'
+    } else {
+      document.documentElement.classList.remove('dark')
+      localStorage.theme = 'light'
     }
-    const closeMenu = () => {
-        sideMenuRef.current.style.transform = 'translateX(16rem)';
+  }
+
+  useEffect(() => {
+    const stored = localStorage.theme
+    if (stored === 'light') {
+      setIsDark(false)
+      document.documentElement.classList.remove('dark')
+    } else {
+      setIsDark(true)
+      document.documentElement.classList.add('dark')
+      localStorage.theme = 'dark'
     }
-    const toggleTheme = () => {
+    const onScroll = () => setScrolled(window.scrollY > 50)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
-        document.documentElement.classList.toggle('dark');
+  const close = () => setMenuOpen(false)
 
-        if (document.documentElement.classList.contains('dark')) {
-            localStorage.theme = 'dark';
-        } else {
-            localStorage.theme = 'light';
-        }
-    }
+  return (
+    <>
+      {/* Light-mode gradient decoration */}
+      <div className="fixed top-0 right-0 w-11/12 -z-10 translate-y-[-80%] dark:hidden pointer-events-none">
+        <img src="./assets/header-bg-color.png" alt="" className="w-full" />
+      </div>
 
-    useEffect(() => {
+      <motion.nav
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+        className={`w-full fixed top-0 left-0 right-0 px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-between z-50 transition-all duration-500 ${
+          scrolled
+            ? 'bg-white/75 backdrop-blur-xl shadow-sm dark:bg-[#0a0014]/90 dark:border-b dark:border-white/5'
+            : ''
+        }`}
+      >
+        {/* Logo */}
+        <a href="#top" className="flex-shrink-0">
+          <img src="./assets/logo.png" alt="Logo" className="w-28 dark:hidden" />
+          <img src="./assets/logo_dark.png" alt="Logo" className="w-28 hidden dark:block" />
+        </a>
 
-        window.addEventListener('scroll', () => {
-            if (scrollY > 50) {
-                navRef.current.classList.add('bg-white', 'bg-opacity-50', 'backdrop-blur-lg', 'shadow-sm', 'dark:bg-darkTheme', 'dark:shadow-white/20');
-                navLinkRef.current.classList.remove('bg-white', 'shadow-sm', 'bg-opacity-50', 'dark:border', 'dark:border-white/30', "dark:bg-transparent");
-            } else {
-                navRef.current.classList.remove('bg-white', 'bg-opacity-50', 'backdrop-blur-lg', 'shadow-sm', 'dark:bg-darkTheme', 'dark:shadow-white/20');
-                navLinkRef.current.classList.add('bg-white', 'shadow-sm', 'bg-opacity-50', 'dark:border', 'dark:border-white/30', "dark:bg-transparent");
-            }
-        })
+        {/* Desktop links */}
+        <ul className={`hidden md:flex items-center gap-6 lg:gap-8 rounded-full px-10 py-3 font-Space text-sm font-medium transition-all duration-500 ${
+          scrolled
+            ? ''
+            : 'bg-white/60 shadow-sm backdrop-blur-sm dark:border dark:border-white/10 dark:bg-white/[0.03]'
+        }`}>
+          {navLinks.map(({ label, href }) => (
+            <li key={label}>
+              <a
+                href={href}
+                className="relative text-gray-600 dark:text-white/70 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 group py-1"
+              >
+                {label}
+                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-violet-500 dark:bg-violet-400 transition-all duration-300 group-hover:w-full" />
+              </a>
+            </li>
+          ))}
+        </ul>
 
-        // -------- light mode and dark mode -----------
+        {/* Right controls */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Theme toggle */}
+          <button
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-white/10 transition-colors duration-200"
+          >
+            <img src="./assets/moon_icon.png" alt="dark" className="w-5 dark:hidden" />
+            <img src="./assets/sun_icon.png"  alt="light" className="w-5 hidden dark:block" />
+          </button>
 
-        if (localStorage.theme === 'light') {
-    document.documentElement.classList.remove('dark');
-} else {
-    document.documentElement.classList.add('dark');
-    localStorage.theme = 'dark';
-}
-    }, [])
+          {/* Contact — Stitch pill button */}
+          <a
+            href="#contact"
+            className="hidden lg:flex btn-stitch btn-stitch-light dark:btn-stitch items-center gap-2"
+          >
+            Contact
+            <img src="./assets/arrow-icon.png" alt="" className="w-3 dark:hidden" />
+            <img src="./assets/arrow-icon-dark.png" alt="" className="w-3 hidden dark:block" />
+          </a>
 
-    return (
-        <>
-            <div className="fixed top-0 right-0 w-11/12 -z-10 translate-y-[-80%] dark:hidden">
-                <img src="./assets/header-bg-color.png" alt="" className="w-full" />
-            </div>
+          {/* Hamburger */}
+          <button
+            onClick={() => setMenuOpen(o => !o)}
+            aria-label="Toggle menu"
+            className="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-[5px] rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+          >
+            <motion.span className="block w-5 h-0.5 bg-gray-700 dark:bg-white rounded-full origin-center"
+              animate={menuOpen ? { rotate: 45, y: 5.5 } : { rotate: 0, y: 0 }} transition={{ duration: 0.25 }} />
+            <motion.span className="block w-5 h-0.5 bg-gray-700 dark:bg-white rounded-full"
+              animate={menuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }} transition={{ duration: 0.2 }} />
+            <motion.span className="block w-5 h-0.5 bg-gray-700 dark:bg-white rounded-full origin-center"
+              animate={menuOpen ? { rotate: -45, y: -5.5 } : { rotate: 0, y: 0 }} transition={{ duration: 0.25 }} />
+          </button>
+        </div>
+      </motion.nav>
 
-            <nav ref={navRef} className="w-full fixed px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-between z-50">
+      {/* Mobile drawer */}
+      <AnimatePresence>
+        {menuOpen && (
+          <>
+            <motion.div
+              className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm md:hidden"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              onClick={close}
+            />
+            <motion.div
+              className="fixed top-0 right-0 bottom-0 z-50 w-72 md:hidden shadow-2xl flex flex-col bg-white dark:bg-[#130025]"
+              initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            >
+              {/* Close button */}
+              <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-gray-100 dark:border-white/10">
+                <img src="./assets/logo.png" alt="Logo" className="w-24 dark:hidden" />
+                <img src="./assets/logo_dark.png" alt="Logo" className="w-24 hidden dark:block" />
+                <button onClick={close} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition">
+                  <img src="./assets/close-black.png" alt="close" className="w-4 dark:hidden" />
+                  <img src="./assets/close-white.png" alt="close" className="w-4 hidden dark:block" />
+                </button>
+              </div>
 
-                <a href=" ">
-                    <img src="./assets/logo.png" alt="Logo" className="w-28 cursor-pointer mr-14 dark:hidden" />
-                    <img src="./assets/logo_dark.png" alt="Logo" className="w-28 cursor-pointer mr-14 hidden dark:block" />
-                </a>
-
-                <ul ref={navLinkRef} className="hidden md:flex items-center gap-6 lg:gap-8 rounded-full px-12 py-3 bg-white shadow-sm bg-opacity-50 font-Ovo dark:border dark:border-white/30 dark:bg-transparent ">
-                    <li><a className='hover:text-gray-500 dark:hover:text-gray-300 transition' href="#top">Home</a></li>
-                    <li><a className='hover:text-gray-500 dark:hover:text-gray-300 transition' href="#about">About me</a></li>
-                    <li><a className='hover:text-gray-500 dark:hover:text-gray-300 transition' href="#services">Services</a></li>
-                    <li><a className='hover:text-gray-500 dark:hover:text-gray-300 transition' href="#work">My Work</a></li>
-                    <li><a className='hover:text-gray-500 dark:hover:text-gray-300 transition' href="#contact">Contact me</a></li>
-                </ul>
-
-                <div className="flex items-center gap-4">
-                    <button onClick={toggleTheme}>
-                        <img src="./assets/moon_icon.png" alt="" className="w-5 dark:hidden" />
-                        <img src="./assets/sun_icon.png" alt="" className="w-5 hidden dark:block" />
-                    </button>
-
-                    <a href="#contact" className="hidden lg:flex items-center gap-3 px-8 py-1.5 border border-gray-300 hover:bg-slate-100/70 dark:hover:bg-darkHover rounded-full ml-4 font-Ovo dark:border-white/30">
-                        Contact
-                        <img src="./assets/arrow-icon.png" alt="" className="w-3 dark:hidden" />
-                        <img src="./assets/arrow-icon-dark.png" alt="" className="w-3 hidden dark:block" />
+              {/* Links */}
+              <ul className="flex flex-col py-4 flex-1">
+                {navLinks.map(({ label, href }, i) => (
+                  <motion.li
+                    key={label}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.06 + 0.1 }}
+                  >
+                    <a
+                      href={href}
+                      onClick={close}
+                      className="flex items-center px-6 py-4 font-Space text-sm font-medium text-gray-700 dark:text-white/80 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-white/5 transition-colors border-b border-gray-50 dark:border-white/5"
+                    >
+                      {label}
                     </a>
+                  </motion.li>
+                ))}
+              </ul>
 
-                    <button className="block md:hidden ml-3" onClick={openMenu}>
-                        <img src="./assets/menu-black.png" alt="" className="w-6 dark:hidden" />
-                        <img src="./assets/menu-white.png" alt="" className="w-6 hidden dark:block" />
-                    </button>
-
-                </div>
-                {/* -- ----- mobile menu ------  -- */}
-                <ul ref={sideMenuRef} className="flex md:hidden flex-col gap-4 py-20 px-10 fixed -right-64 top-0 bottom-0 w-64 z-50 h-screen bg-rose-50 transition duration-500 font-Ovo dark:bg-darkHover dark:text-white">
-
-                    <div className="absolute right-6 top-6" onClick={closeMenu}>
-                        <img src="./assets/close-black.png" alt="" className="w-5 cursor-pointer dark:hidden" />
-                        <img src="./assets/close-white.png" alt="" className="w-5 cursor-pointer hidden dark:block" />
-                    </div>
-
-                    <li><a href="#top" onClick={closeMenu}>Home</a></li>
-                    <li><a href="#about" onClick={closeMenu}>About me</a></li>
-                    <li><a href="#services" onClick={closeMenu}>Services</a></li>
-                    <li><a href="#work" onClick={closeMenu}>My Work</a></li>
-                    <li><a href="#contact" onClick={closeMenu}>Contact me</a></li>
-                </ul>
-            </nav>
-        </>
-    )
+              {/* Bottom CTA */}
+              <div className="px-6 pb-8">
+                <a href="#contact" onClick={close}
+                  className="btn-stitch btn-stitch-light dark:btn-stitch w-full justify-center">
+                  Get in touch ↗
+                </a>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
+  )
 }

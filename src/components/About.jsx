@@ -1,168 +1,238 @@
-// import MeteorCrash from "../animations/MeteorCrash.jsx"
+import { useState, useRef, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+
+const techCategories = [
+  {
+    id: 'frontend',
+    label: 'Frontend',
+    emoji: '🎨',
+    color: '#818cf8',
+    bg: 'rgba(129,140,248,0.12)',
+    skills: [
+      { name: 'React JS',       level: 85 },
+      { name: 'JavaScript',     level: 88 },
+      { name: 'HTML & CSS',     level: 92 },
+      { name: 'Tailwind CSS',   level: 82 },
+    ],
+  },
+  {
+    id: 'backend',
+    label: 'Backend',
+    emoji: '⚙️',
+    color: '#34d399',
+    bg: 'rgba(52,211,153,0.10)',
+    skills: [
+      { name: 'ASP.NET Web API', level: 78 },
+      { name: 'Node.js',         level: 70 },
+      { name: 'Express.js',      level: 72 },
+      { name: 'C#',              level: 75 },
+    ],
+  },
+  {
+    id: 'database',
+    label: 'Database',
+    emoji: '🗄️',
+    color: '#f59e0b',
+    bg: 'rgba(245,158,11,0.10)',
+    skills: [
+      { name: 'SQL Server', level: 72 },
+      { name: 'MongoDB',    level: 68 },
+      { name: 'Firebase',   level: 65 },
+    ],
+  },
+  {
+    id: 'tools',
+    label: 'Tools',
+    emoji: '🛠️',
+    color: '#fb7185',
+    bg: 'rgba(251,113,133,0.10)',
+    skills: [
+      { name: 'Git & GitHub', level: 83 },
+      { name: 'Figma',        level: 60 },
+      { name: 'Docker',       level: 50 },
+      { name: 'VS Code',      level: 90 },
+    ],
+  },
+]
+
+const infoCards = [
+  { name: 'Languages', description: 'HTML, CSS, JS, React, ASP.NET, C#, SQL, Node.js, Express' },
+  { name: 'Education',  description: 'B.Tech in Computer Science' },
+  { name: 'Projects',  description: 'Built 20+ projects across web & APIs' },
+]
+
+function SkillBar({ name, level, color, animate }) {
+  return (
+    <div>
+      <div className="flex justify-between text-xs sm:text-sm font-Space font-medium mb-1.5">
+        <span className="text-gray-700 dark:text-white/80">{name}</span>
+        <span style={{ color }}>{level}%</span>
+      </div>
+      <div className="w-full bg-gray-200 dark:bg-white/10 rounded-full h-1.5 overflow-hidden">
+        <motion.div
+          className="h-1.5 rounded-full"
+          style={{ background: `linear-gradient(90deg, ${color}70, ${color})` }}
+          initial={{ width: 0 }}
+          animate={{ width: animate ? `${level}%` : 0 }}
+          transition={{ duration: 0.9, ease: 'easeOut', delay: 0.12 }}
+        />
+      </div>
+    </div>
+  )
+}
 
 export default function About() {
+  const [activeId, setActiveId] = useState('frontend')
+  const [animKey, setAnimKey] = useState(0)
+  const [inView, setInView] = useState(false)
+  const skillsRef = useRef(null)
 
-  const skills = [
-    { name: "React", level: 80 },
-    { name: ".NET Web API", level: 75 },
-    { name: "Node.js", level: 65 },
-    { name: "SQL Server", level: 70 },
-    { name: "JavaScript", level: 85 },
-  ];
+  const active = techCategories.find(c => c.id === activeId)
 
-  const data = [
-    {
-      name: "Languages",
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) setInView(true)
+    }, { threshold: 0.2 })
+    if (skillsRef.current) obs.observe(skillsRef.current)
+    return () => obs.disconnect()
+  }, [])
 
-      description:
-        "HTML, CSS, JavaScript, React JS, ASP.NET Web API, C#, SQL Server, Node.js, Express.js",
-    },
-    {
-      name: "Education",
-
-      description: "B.Tech in Computer Science",
-    },
-    {
-      name: "Projects",
-
-      description: "Built more than 20 projects",
-    },
-  ];
+  const handleTab = (id) => {
+    setActiveId(id)
+    setAnimKey(k => k + 1)
+  }
 
   return (
-    <div
-      id="about"
-      className="relative w-full px-[12%] py-10 scroll-mt-20 overflow-hidden"
-    >
+    <div id="about" className="relative w-full px-[6%] sm:px-[12%] py-16 scroll-mt-20 overflow-hidden">
 
-      {/* Meteor animation background */}
-      <div className="absolute right-0 top-0 w-[450px] h-full pointer-events-none">
-        {/* <MeteorCrash /> */}
-      </div>
+      {/* Planet bg deco */}
+      <img src="/assets/crash-image.png" alt="" aria-hidden
+        className="absolute right-[-60px] sm:right-[-120px] md:right-[-220px] top-1/2 -translate-y-1/2
+          w-[200px] sm:w-[320px] md:w-[520px] opacity-[0.12] pointer-events-none -z-10" />
 
-      {/* Crash Image */}
-      <img
-        src="/assets/crash-image.png"
-        alt="planet"
-        className="
-        absolute
-  right-[-40px] sm:right-[-80px] md:right-[-200px] lg:right-[-300px]
-  bottom-[-50px] sm:bottom-[-100px] md:top-1/2 md:-translate-y-1/2
-  w-[180px] sm:w-[260px] md:w-[600px] lg:w-[900px]
-  opacity-25
-  pointer-events-none
-  z-[-1]
-  "
-      />
+      {/* Heading */}
+      <h4 className="text-center mb-2 text-base font-Space font-medium text-violet-500 dark:text-violet-400 tracking-widest uppercase">Introduction</h4>
+      <h2 className="text-center text-4xl sm:text-5xl font-Space font-bold text-gray-900 dark:text-white">About Me</h2>
 
-      <h4 className="text-center mb-2 text-lg font-Ovo">
-        Introduction
-      </h4>
+      {/* Profile + bio */}
+      <div className="flex w-full flex-col lg:flex-row items-center gap-12 lg:gap-20 my-14 sm:my-20">
 
-      <h2 className="text-center text-5xl font-Ovo">
-        About me
-      </h2>
-
-      <div className="flex w-full flex-col lg:flex-row items-center gap-20 my-20">
-
-        {/* Profile Image */}
-        <div className="max-w-max mx-auto relative">
-
-          <img
-            src="/assets/user-image.png"
-            alt="user"
-            className="w-64 sm:w-80 rounded-3xl max-w-none"
-          />
-
-          <div className="bg-white w-1/2 aspect-square absolute right-0 bottom-0 rounded-full translate-x-1/4 translate-y-1/3 shadow-[0_4px_55px_rgba(149,0,162,0.15)] flex items-center justify-center">
-
-            <img
-              src="/assets/circular-text.png"
-              alt=""
-              className="w-full animate-spin_slow"
-            />
-
-            <img
-              src="/assets/logo.png"
-              alt=""
-              className="w-2/4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-            />
-
+        {/* Avatar with spinning ring */}
+        <div className="relative flex-shrink-0 mx-auto">
+          <img src="/assets/user-image.png" alt="Talraj Bhatia"
+            className="w-52 sm:w-64 rounded-3xl shadow-xl shadow-violet-900/30" />
+          <div className="bg-white dark:bg-darkTheme w-[45%] aspect-square absolute right-0 bottom-0
+            rounded-full translate-x-1/4 translate-y-1/3 shadow-[0_4px_40px_rgba(139,92,246,0.25)]
+            flex items-center justify-center overflow-hidden">
+            <img src="/assets/circular-text.png" alt="" className="w-full animate-spin_slow" />
+            <img src="/assets/logo.png" alt="" className="w-2/5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 dark:hidden" />
+            <img src="/assets/logo_dark.png" alt="" className="w-2/5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hidden dark:block" />
           </div>
-
         </div>
 
-        {/* About Content */}
+        {/* Bio */}
         <div className="flex-1">
-
-          <p className="mb-10 max-w-2xl font-Ovo">
-            I am an experienced FullStack Developer with strong expertise in
-            modern web technologies. I enjoy building scalable web
-            applications, designing APIs, and creating user-friendly
-            interfaces. I have worked on multiple projects using React,
-            ASP.NET Web API, Node.js, and SQL Server.
+          <p className="mb-8 max-w-2xl font-Space text-gray-500 dark:text-white/65 leading-relaxed text-base">
+            I'm a passionate Full-Stack Developer with strong expertise in modern web technologies.
+            I enjoy building scalable web applications, designing APIs, and creating user-friendly interfaces.
+            I have worked on multiple projects using React, ASP.NET Web API, Node.js, and SQL Server.
           </p>
 
-          {/* Cards */}
-          <ul className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl">
-
-            {data.map((item) => (
-
-              <li
+          <ul className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {infoCards.map((item, i) => (
+              <motion.li
                 key={item.name}
-                className="border border-gray-300 dark:border-white/30 rounded-xl p-6 cursor-pointer hover:bg-lightHover hover:-translate-y-1 duration-500 hover:shadow-black dark:hover:shadow-white/80 dark:hover:bg-darkHover/50"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="border border-gray-200 dark:border-white/10 rounded-xl p-5 cursor-default
+                  hover:border-violet-300 dark:hover:border-violet-500/40
+                  hover:bg-violet-50/50 dark:hover:bg-violet-900/10
+                  hover:-translate-y-1 hover:shadow-md
+                  transition-all duration-300"
               >
-
-                <img src={item.icon1} alt="" className="w-7 mt-3 dark:hidden" />
-                <img src={item.icon2} alt="" className="w-7 mt-3 hidden dark:block" />
-
-                <h3 className="my-4 font-semibold text-gray-700 dark:text-white">
-                  {item.name}
-                </h3>
-
-                <p className="text-gray-600 text-sm dark:text-white/80">
-                  {item.description}
-                </p>
-
-              </li>
-
+                <h3 className="font-Space font-semibold text-gray-800 dark:text-white text-sm mb-2">{item.name}</h3>
+                <p className="font-Space text-gray-500 dark:text-white/60 text-xs leading-relaxed">{item.description}</p>
+              </motion.li>
             ))}
-
           </ul>
+        </div>
+      </div>
 
+      {/* ── Stitch-style Tech Category Selector ──────────────────── */}
+      <div ref={skillsRef} className="mt-6">
+        <h2 className="text-center text-2xl sm:text-3xl font-Space font-bold text-gray-800 dark:text-white/80 mb-8">
+          Technical Skills
+        </h2>
+
+        {/* Pill tabs */}
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10">
+          {techCategories.map((cat) => {
+            const isActive = cat.id === activeId
+            return (
+              <button
+                key={cat.id}
+                onClick={() => handleTab(cat.id)}
+                className="relative flex items-center gap-2 px-5 py-2.5 rounded-full border font-Space text-sm font-medium transition-all duration-300 focus:outline-none"
+                style={isActive
+                  ? { background: cat.color, borderColor: cat.color, color: '#fff', boxShadow: `0 4px 20px ${cat.color}45`, transform: 'scale(1.06)' }
+                  : { background: 'transparent', borderColor: 'rgba(156,163,175,0.4)', color: '', transform: 'scale(1)' }
+                }
+              >
+                <span className="text-base">{cat.emoji}</span>
+                <span>{cat.label}</span>
+              </button>
+            )
+          })}
         </div>
 
-      </div>
-
-      {/* Skills Section */}
-      <h1 className="my-10 text-center text-gray-700 font-Ovo dark:text-white/80 text-3xl">
-        Technical Skills
-      </h1>
-
-      <div className="w-full max-w-md mx-auto space-y-4 px-4">
-
-        {skills.map((skill) => (
-          <div key={skill.name}>
-
-            <div className="flex justify-between text-xs sm:text-sm font-medium mb-1">
-              <span>{skill.name}</span>
-              <span>{skill.level}%</span>
+        {/* Skill panel */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`${activeId}-${animKey}`}
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+            className="w-full max-w-xl mx-auto"
+          >
+            {/* Panel header */}
+            <div className="flex items-center gap-3 mb-5 px-2">
+              <span className="text-2xl">{active.emoji}</span>
+              <h3 className="font-Space text-lg font-semibold text-gray-800 dark:text-white">
+                {active.label} Stack
+              </h3>
+              <div className="flex-1 h-px bg-gray-200 dark:bg-white/10" />
             </div>
 
-            <div className="w-full bg-gray-300 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
-
-              <div
-                className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-700"
-                style={{ width: `${skill.level}%` }}
-              ></div>
-
+            {/* Skill bars */}
+            <div className="space-y-5">
+              {active.skills.map((skill) => (
+                <SkillBar
+                  key={skill.name}
+                  name={skill.name}
+                  level={skill.level}
+                  color={active.color}
+                  animate={inView}
+                />
+              ))}
             </div>
 
-          </div>
-        ))}
-
+            {/* Chip badges */}
+            <div className="flex flex-wrap gap-2 mt-7">
+              {active.skills.map((skill) => (
+                <span key={skill.name}
+                  className="font-Mono text-xs px-3 py-1.5 rounded-full border transition-all duration-200"
+                  style={{ borderColor: `${active.color}40`, color: active.color, background: active.bg }}
+                >
+                  {skill.name}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
-
     </div>
-  );
+  )
 }
